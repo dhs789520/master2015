@@ -83,24 +83,22 @@ def next_verify(request):
         return userview.logout(request)
 
 
+#下一题 
 def next(request):
 
-    #自增下一题
-    request.session['qid'] +=1
-
-
     #游客只能浏览前50题
-    if request.session['uid'] ==0 and request.session['qid'] >50:
+    if request.session['uid'] ==0 and request.session['qid'] >=50:
         return HR(u'亲，请先登录，游客只能浏览前50题！')
 
     #邮箱未认证用户只能浏览前500题
-    if request.session['degree'] <=1 and request.session['qid'] >500:
+    if request.session['degree'] <=1 and request.session['qid'] >=500:
         return HR(u'亲，请先完成邮箱认证，邮箱未认证用户只能浏览前500题！')
 
     # 2级用户只能浏览前2000题
-    if request.session['degree'] <=2 and request.session['qid'] >2000:
+    if request.session['degree'] <=2 and request.session['qid'] >=2000:
         return HR(u'亲，目前2级用户只能浏览前2000题！')
 
+    #验证是否有爬虫
     if 'next_verify' in request.session and request.session['next_verify']==2:
         del(request.session['next_verify'])
         u=User.objects.get(id=request.session['uid'])
@@ -110,25 +108,39 @@ def next(request):
         userview.logout(request)
         return HR(u'亲，不要爬我的小站了！')
 
-    #如果存在用户uid !=0 ，即非游客
-    if request.session['uid']:
+    #如果存在用户登录 degree > 0 ，即非游客
+    if request.session['degree']:
         user= User.objects.filter(id=request.session['uid'])[0]
-        user.qid=request.session['qid']
+
+        #自增下一题
+        user.qid += 1
+        #同步session
+        request.session['qid'] = user.qid
         user.save()
+    else:
+        #如果为游客状态 session['qid'] 自增1
+        request.session['qid'] += 1
     return HttpResponseRedirect('/showQuestion')
 
 
 
 def pre(request):
     #大于1题的题目才可以有上一题 
-    if request.session['qid'] >1:
+    if request.session['qid'] > 1:
         request.session['qid'] -=1
 
-    #如果存在用户id !=0
-    if request.session['uid']:
+    #如果存在用户登录 degree > 0 ，即非游客
+    if request.session['degree']:
         user= User.objects.filter(id=request.session['uid'])[0]
-        user.qid=request.session['qid']
+
+        #自增上一题
+        user.qid -= 1
+        #同步session
+        request.session['qid'] = user.qid
         user.save()
+    else:
+        #如果为游客状态 session['qid'] 自减1
+        request.session['qid'] -= 1
     return HttpResponseRedirect('/showQuestion')
 
 

@@ -23,10 +23,10 @@ sys.setdefaultencoding('utf-8')
 SECRET_KEY = 'jjg&@7&&wqa(&$!396om49d851+ix&t65e3#0c_5i!t^15p3u1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-#TEMPLATE_DEBUG = True
+DEBUG = True
+TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['*']
 
 TEMPLATE_DIRS = (
         os.path.join(BASE_DIR, 'doctor/template') ,

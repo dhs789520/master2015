@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+﻿# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
@@ -52,6 +52,7 @@ target/
 #
 *.svn
 *.db3
+question.db
 
 #vim tags
 tags
