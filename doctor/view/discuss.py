@@ -24,7 +24,7 @@ def verifyimg(request):
 
 #提交讨论投票
 def vote(request):
-    if request.session['score']==0:
+    if request.session['degree']==0:
         return HR(u'需要登录后才可以投票！')
     else:
         did=request.POST['did']

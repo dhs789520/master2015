@@ -49,7 +49,7 @@ def admin_login(request):
         
         
          #设置session
-        request.session['user']=user[0].username
+        request.session['username']=user[0].username
         request.session['score']=user[0].score
         request.session['degree']=user[0].degree
         request.session['uid']=user[0].id
@@ -60,7 +60,7 @@ def admin_login(request):
 #退出登录
 def admin_logout(request):
      #设置session
-    request.session['user']='游客'
+    request.session['username']='游客'
     request.session['score']=0
     request.session['degree']=0
     request.session['qid']=1

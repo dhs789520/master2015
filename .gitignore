@@ -43,7 +43,7 @@ docs/_build/
 target/
 
 #所有可执行文件被忽略
-#*.exe
+*.exe
 
 # vim交换文件被忽略
 *.swp

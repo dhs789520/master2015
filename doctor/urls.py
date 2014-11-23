@@ -45,6 +45,8 @@ urlpatterns = patterns('',
     
     #相关操作存放于view.user
     url(r'^reg$', user.reg),#用户注册页面
+    url(r'^user_info$', user.info),#用户注册页面
+    url(r'^send_verify_email$', user.send_verify_email),#发送邮箱验证邮件
     url(r'^email_verify/(.+)/(.+)$', user.email_verify),#邮箱验证页面
     url(r'^login$', user.login),#用户登录页面
     url(r'^logout$', user.logout),#退出登录页面

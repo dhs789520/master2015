@@ -1,35 +1,65 @@
 {% extends "baseAll.html" %}
 
 {% block content %}
-注册页面
 
-<br>
 {%for e in error %}
     <font color=red>{{e}}</font>
     <br>
 {%endfor%}
 
-<form name="userReg" method="post" action="/reg">
-  <p>
-  用户名：<input type="text" name="username" value={{reginfo.username}}>
-  </p>
-  <p>  密　码：<input type="password" name="password" value={{reginfo.password}}>
-</p>
-  <p>
-   重复密码：
-     <input type="password" name="password2">
-</p>
-  <p>邮　箱：
-    <input type="text" name="email"  value={{reginfo.email}}>
-  </p>
-  <p>     验证码： <input type="text" name="verify">
-<img onclick="this.setAttribute('src','/verify.jpg?nocache='+Math.random());" src="/verify.jpg" alt="CheckCode"/> 
+
+<form class="form-horizontal" name="userReg" method="post" action="/reg">
+    <fieldset>
+        <legend>用户注册</legend>
+
+  <div class="control-group">
+      <label class="control-label" for="username">用户名：</label>
+      <div class="controls">
+      <input id="username" type="text" name="username" value="{{reginfo.username}}" placeholder="请输入用户名" class="span3">
+      <p class="help-block">请输入6位以上以字母或数字组合的用户名</p>
+  </div>
+  </div>
+
+  <div class="control-group">
+      <label class="control-label" for="password">  密　码：</label>
+      <div class="controls">
+      <input id="password" type="password" name="password" value="{{reginfo.password}}" placeholder="请输入密码"> 
+      <p class="help-block">请输入密码</p>
+  </div>
+  </div>
+
+  <div class="control-group">
+      <label class="control-label" for="password2"> 重复密码：</label>
+      <div class="controls">
+      <input id="password2" type="password" name="password2" value="{{reginfo.password2}}" placeholder="请再次输入密码"> 
+      <p class="help-block">请再次输入密码，以免输错</p>
+  </div>
+  </div>
+
+  <div class="control-group">
+      <label class="control-label" for="email">邮 箱：</label>
+      <div class="controls">
+      <input id="email" type="text" name="email" value="{{reginfo.email}}" placeholder="请输入电子邮箱">
+      <p class="help-block">请输入有效的电子邮箱，以便于下一步认证</p>
+  </div>
+  </div>
+
+  <div class="control-group">
+      <label class="control-label" for="verify">验证码：</label>
+      <div class="controls">
+      <input id="verify" type="text" name="verify" value="{{reginfo.verify}}" placeholder="请输入验证码">
+      <img onclick="this.setAttribute('src','/verify.jpg?nocache='+Math.random());" src="/verify.jpg" alt="CheckCode"/> 
+      <p class="help-block">请输入图中的验证码，看不清可点击图片更新</p>
+  </div>
+  </div>
+
   
-</p>
-  <p>
-    <input type="submit" name="Submit" value="提交">
-    <a href=/login>已有用户名?立即前往登录</a>
-</p>
+    </fieldset>
+  <div class="form-actions">
+      <button class="bun btn-primary" type="submit" name="Submit">提交注册</button>
+      <a href=/login>已有用户名?立即前往登录</a>
+  </div>
+
 </form>
 {% endblock%}
 

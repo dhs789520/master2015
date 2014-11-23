@@ -4,9 +4,24 @@
 
 <a href="/login">注册成功，稍后将跳转到主页 </a>
 
-一封Email已经发送到您的邮箱，如果需要更高权限的操作，请打开email，完成进一步的认证
+一封Email已经发送到您的邮箱，<br>
+如果需要更高权限的操作，请打开email，<br>
+点击邮件中的认证链接，完成进一步的认证
 
-<meta http-equiv="refresh" content="4;url=/">
+
+<button id=sendemail class="bun btn-primary" onclick="send_verify_email()">未收到邮件？再次点击发送</button>
+<!--meta http-equiv="refresh" content="4;url=/"-->
+
+<script>
+function send_verify_email(){
+    $.get("/send_verify_email",function(data,status){
+            return ;
+      });
+    $("#sendemail").attr('enabled','false');
+
+}
+
+</script>
 
 {% endblock%}
 

@@ -52,7 +52,7 @@ def login(request):
 
     
          #设置session
-        request.session['user']=user[0].username
+        request.session['username']=user[0].username
         request.session['score']=user[0].score
         request.session['degree']=user[0].degree
         request.session['uid']=user[0].id
@@ -63,16 +63,13 @@ def login(request):
 #退出登录
 def logout(request):
      #设置session
-    request.session['user']='游客'
+    request.session['username']='游客'
     request.session['score']=0
     request.session['degree']=0
     request.session['qid']=1
     request.session['uid']=0
     request.session['forbidden']=0
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
-
-
 
 
 
@@ -93,8 +90,8 @@ def reg(request):
          #如果用户名长度不正确
         if not 6<=len(username)<=12:
             error.append(u'用户名长度应在6到12之间')
-        if not re.match(r'^[a-zA-Z][a-zA-Z0-9_]{4,15}$',username):
-            error.append(u'用户名不规范，应全以字符开头，只能由字符，数字和下划线组成')
+        if not re.match(r'^[a-zA-Z0-9][a-zA-Z0-9_]{4,15}$',username):
+            error.append(u'用户名不规范，应以字符或数字开头，只能由字符，数字和下划线组成')
 
          #如果用户名已经存在
         if User.objects.filter(username=username).count() != 0:
@@ -144,10 +141,30 @@ def reg(request):
         request.session['user']=username
         request.session['uid']=user.id
         request.session['qid']=1
-        request.session['score']=1 #新用户的操作积分为1
+        request.session['score']=0 #新用户的操作积分为1
         request.session['degree']=1 #新用户的等级为1
         
         return render_to_response('reg_success.html',{'user':request.session})
+
+
+#发送邮件以验证邮箱
+def send_verify_email(request):
+    if request.session['uid']== 0:
+        return 
+    user= User.objects.get(id=request.session['uid'])
+    email_verify_code=user.email_verify_code
+    if email_verify_code == 'success':
+        return
+    username=user.username
+    email=user.email
+    #发送 email 认证  Email认证后，用户的degree 增加 1 ，也就可以发讨论信息了
+    from django.core.mail import send_mail
+    email_verify_url=r'http://m2015.sinaapp.com/email_verify/%s/%s'%(username,email_verify_code)
+    emailmsg=u'尊敬的朋友，如果您在主治医师研讨班注册了帐号，请点击以下网址完成邮箱认证\n %s  \n如果没有注册，请忽略此邮件，谢谢！'%(email_verify_url)
+    send_mail(u'用户邮箱认证',emailmsg,'dhs789520@163.com',[email],fail_silently=False)   
+
+
+    
 
 
 
@@ -170,5 +187,34 @@ def email_verify(request,username,email_verify_code):
     else:
         return HR(u'认证失败,请重新注册')
     
+
+
+#用户信息显示页
+def info(request):
+     #如果用户首次进入网页
+    if request.session['uid']== 0:
+        user=request.session
+    else:
+        user=User.objects.get(id=request.session['uid'])
+
+
+    #不同的题型，出现相应不同的模板
+    return render_to_response('user_info.html', {'user':user} )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

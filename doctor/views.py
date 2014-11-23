@@ -34,7 +34,7 @@ def verifyimg(request):
 def index(request):
      #如果用户首次进入网页
     if 'user' not in request.session:
-        request.session['user'] = u'游客'
+        request.session['username'] = u'游客'
         request.session['score']=0
         request.session['degree']=0
         request.session['uid']=0

@@ -1,0 +1,41 @@
+{% extends "baseAll.html" %}
+  
+  
+{% block content %}
+
+
+<div class=row>
+        <div class=span2></div>
+
+        <div class=span8>
+  <h1 class="page-header">用户信息</h1> 
+  <ui>
+  <li> 用户名: {{user.username}}</li>
+  <li> Email: {{user.email}}
+      {%ifequal user.email_verify_code  'success' %}
+        邮箱已认证
+      {%else%}
+        <button class="bun btn-primary" onclick="send_verify_email()">未收到邮件？再次点击发送</button>
+      {%endifequal%}
+  </li>
+  <li> 做题数: {{user.qid}}</li>
+  <li> 等级: {{user.degree}}</li>
+  <li> 积分: {{user.score}}</li>
+
+        
+<br>
+<br>
+<br>
+<br>
+  </div><!--span8-->
+  </div><!--row-->
+
+<script>
+function send_verify_email(){
+    $.get("/send_verify_email",function(data,status){
+            return ;
+      });
+}
+
+</script>
+{% endblock%} </p>

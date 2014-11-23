@@ -24,7 +24,7 @@ def verifyimg(request):
 
 #显示答案及解析
 def showAnswer(request,answer):
-    if request.session['score']==0:
+    if request.session['degree']==0:
         return HR(u'需要登录后才可以查看答案及解析！')
 
     if answer==request.session['answer'] and len(answer)>1:
@@ -39,7 +39,7 @@ def showAnswer(request,answer):
 #显示题目
 def showQuestion(request):
 
-    if 'user' not in request.session:
+    if 'username' not in request.session:
         return HttpResponseRedirect('/')
 
     q=Question.objects.filter(id=request.session['qid'])[0]
@@ -125,22 +125,21 @@ def next(request):
 
 
 def pre(request):
-    #大于1题的题目才可以有上一题 
-    if request.session['qid'] > 1:
-        request.session['qid'] -=1
 
     #如果存在用户登录 degree > 0 ，即非游客
     if request.session['degree']:
         user= User.objects.filter(id=request.session['uid'])[0]
 
-        #自增上一题
-        user.qid -= 1
-        #同步session
-        request.session['qid'] = user.qid
-        user.save()
+        #自减上一题
+        if user.qid > 1:
+            user.qid -= 1
+            #同步session
+            request.session['qid'] = user.qid
+            user.save()
     else:
         #如果为游客状态 session['qid'] 自减1
-        request.session['qid'] -= 1
+        if request.session['qid'] > 1:
+            request.session['qid'] -= 1
     return HttpResponseRedirect('/showQuestion')
 
 
