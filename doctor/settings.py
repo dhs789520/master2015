@@ -23,10 +23,7 @@ sys.setdefaultencoding('utf-8')
 SECRET_KEY = 'jjg&@7&&wqa(&$!396om49d851+ix&t65e3#0c_5i!t^15p3u1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-TEMPLATE_DEBUG = True
 
-#ALLOWED_HOSTS = ['*']
 
 TEMPLATE_DIRS = (
         os.path.join(BASE_DIR, 'doctor/template') ,
@@ -68,6 +65,12 @@ try:
          MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASS, MYSQL_DB
      )
     ENGINE = 'django.db.backends.mysql'
+
+    #发布版本 debug关闭
+    DEBUG = False
+    TEMPLATE_DEBUG = False
+    ALLOWED_HOSTS = ['m2015.sinaapp.com']
+
 except:
     ENGINE = 'django.db.backends.sqlite3'
     MYSQL_HOST = ''
@@ -82,6 +85,11 @@ except:
     #MYSQL_USER = 'root'
     #MYSQL_PASS = ''
     #MYSQL_DB = 'question'
+
+    #测试版本 debug打开
+    DEBUG = True
+    TEMPLATE_DEBUG = True
+    #ALLOWED_HOSTS = ['m2015.sinaapp.com']
 
 
 DATABASES = {
