@@ -1,0 +1,60 @@
+
+<html>
+<head>
+
+<link href="./static/question.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/static/jquery.js"></script>
+<script type="text/javascript" src="/static/question.js"></script>
+
+
+
+<title> 主治医师研讨班</title>
+</head>
+<body>
+<h1>主治医师研讨班</h1>
+<form action='/jump' method=get >
+    <input type=text name=id>
+    <input type=submit name='submit' value='跳转'>
+</form>
+
+<form name="search" method="post" action="/search">
+    <input type="text" name="keyword" value={{search_keyword}}>
+  <input type="submit" name="Submit" value="搜索">
+
+  <select name="area">
+    <option>仅题目</option>
+    <option>全部内容</option>
+    </select>
+</form>
+
+{%block question%} {%endblock%}
+
+<button id=pre>上一题</button>
+<button id=next>下一题</button>
+<script>
+  $("#next").click(function(){
+    window.location.href='/next';
+  });
+
+  $("#pre").click(function(){
+    window.location.href='/pre';
+  });
+</script>
+<br>
+
+
+             <form action="http://www.baidu.com/baidu" target="_blank">
+                 <table bgcolor="#FFFFFF"><tr><td>
+                  <input name=tn type=hidden value=baidu>
+                 <a href="http://www.baidu.com/"><img src="http://img.baidu.com/img/logo-80px.gif" alt="Baidu" align="bottom" border="0"></a>
+                 <input type=text name=word size=30 baiduSug=1>
+                 <input type="submit" value="百度搜索">
+                 </td></tr>
+               </table>
+           </form>
+<script charset="gbk" src="http://www.baidu.com/js/opensug.js"></script>
+<br><font color=red>版权所有：明光市人民医院  MR.WATER</font>
+</body>
+</html> 
+
+

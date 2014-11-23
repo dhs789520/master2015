@@ -1,0 +1,49 @@
+{% extends "baseAll.html" %}
+
+{% block content %}
+
+{%for e in error %}
+    <font color=red>{{e}}</font>
+    <br>
+{%endfor%}
+
+<form class="form-horizontal" name="userLogin" method="post" action="/login">
+    <fieldset>
+        <legend>用户登录</legend>
+
+  <div class="control-group">
+  <label class="control-label" for="username">用户名：</label>
+  <div class="controls">
+  <input id="username" type="text" name="username" value="{{loginfo.username}}" placeholder="请输入用户名" class="span3">
+  <p class="help-block">请输入用户名</p>
+  </div>
+  </div>
+
+  <div class="control-group">
+      <label class="control-label" for="password">  密　码：</label>
+      <div class="controls">
+      <input id="password" type="password" name="password" value="{{loginfo.password}}" placeholder="请输入密码"> 
+      <p class="help-block">请输入密码</p>
+  </div>
+  </div>
+  
+
+  <div class="control-group">
+      <label class="control-label" for="verify"> 验证码： </label>
+      <div class="controls">
+      <input id="verify" type="text" name="verify" >
+    <img onclick="this.setAttribute('src','/verify.jpg?nocache='+Math.random());" src="/verify.jpg" alt="点击图片更换验证码"/> 
+      <p class="help-block">验证码不区分大小写</p>
+  </div>
+  </div>
+  
+    </fieldset>
+  <div class="form-actions">
+      <button class="bun btn-primary" type="submit" name="Submit">登录</button>
+    <a href="/reg">没有用户名?立即前往注册</a>
+  </div>
+
+
+</form>
+{% endblock%}
+

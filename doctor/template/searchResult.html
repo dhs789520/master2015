@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block question %}
+<div id=showQuestion style=display:none></div>
+<div id=list>
+{% for q in questions%}
+<li id={{q.id}} class={%cycle 'odd' 'even' %}><a target="_blank"  onclick="showQuestion({{q.id}})" > {{forloop.counter}} {{q.question | slice:"50"}} </a></li>
+{% endfor %}
+</div>
+
+<script>
+function showQuestion(id){
+    $("#showQuestion").hide();
+    $.get("showQuestion/"+id,function(data,status){
+        $("#showQuestion").html(data);
+      });
+
+    $("#showQuestion").insertAfter("#"+id);
+    $("#showQuestion").slideDown(2000);
+
+}
+</script>
+<br>
+
+{% endblock%}
+

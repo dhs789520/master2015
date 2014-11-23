@@ -1,0 +1,15 @@
+{{q.subject}} <br>
+
+{% include includeQuestion %}
+
+<button id=showanswer>答案</button>
+<div id=answer style=display:none>
+    {{q.answer}}<br>
+    {{q.qexplain}}
+</div>
+<script>
+  $("#showanswer").click(function(){
+    $("#answer").toggle();
+  });
+</script>
+

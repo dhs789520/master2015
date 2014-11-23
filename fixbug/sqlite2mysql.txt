@@ -1,0 +1,30 @@
+1.SQLite导出
+
+可以使用各种工具导出库，我使用FireFox的SQLite的管理插件SQLite Manager。
+
+使用SQLite Manager插件打开数据库(.db .sqlite3)文件，选择导出。将整个库文件导出为.sql查询语句。
+
+2.SQL语句兼容性修改
+
+为了保证SQL语句的兼容，需要将SQLite的特有的格式，修改为MySQL的格式。下面为我总结的一般规则(下面的方括号应被忽略)：
+
+将 ["] 改为 [`]
+也可以移除全部的 ["] ，但是如果有一些函数名作为字段名(e.g. regexp)时将会遇到错误
+需要注意一些默认为 ["] ，其作用不在字段上的，不应被替换而应当被保留
+移除所有的 [BEGIN TRANSACTION] [COMMIT] 以及 任何包含 [sqlite_sequence] 的(整)行
+将所有 [autoincrement] 改为 [auto_increment]
+将所有 ['f'] 改为 ['0'] 并将所有 ['t'] 改为 ['1']
+或者['False']改为['0']及['True']改为['1']
+text字段不能设置unipue，需改为varchar(255)
+注意sqlite是不区分类型的，所以有些整形字段和text字段要修改配合mysql。
+默认设为CURRENT_TIMESTAMP的字段类型一定为TIMESTAMP。
+将修改完的文件保存。
+
+3.MySQL导入
+
+ 用顺手的工具导入就可以了。
+
+
+##############
+对于 question表 其中的字段 type 和 explain
+ 在mysql 中为关键字，所以导入不了，这个需要再考虑转化

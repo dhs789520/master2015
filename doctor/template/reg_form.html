@@ -1,0 +1,35 @@
+{% extends "baseAll.html" %}
+
+{% block content %}
+注册页面
+
+<br>
+{%for e in error %}
+    <font color=red>{{e}}</font>
+    <br>
+{%endfor%}
+
+<form name="userReg" method="post" action="/reg">
+  <p>
+  用户名：<input type="text" name="username" value={{reginfo.username}}>
+  </p>
+  <p>  密　码：<input type="password" name="password" value={{reginfo.password}}>
+</p>
+  <p>
+   重复密码：
+     <input type="password" name="password2">
+</p>
+  <p>邮　箱：
+    <input type="text" name="email"  value={{reginfo.email}}>
+  </p>
+  <p>     验证码： <input type="text" name="verify">
+<img onclick="this.setAttribute('src','/verify.jpg?nocache='+Math.random());" src="/verify.jpg" alt="CheckCode"/> 
+  
+</p>
+  <p>
+    <input type="submit" name="Submit" value="提交">
+    <a href=/login>已有用户名?立即前往登录</a>
+</p>
+</form>
+{% endblock%}
+

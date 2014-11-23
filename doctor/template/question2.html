@@ -1,0 +1,72 @@
+<style>
+label:hover{background-color:#449d44;}
+</style>
+
+<div class=row>
+<div id=question class="span8 question">
+
+
+<div class=btn-bar>
+    <div class=btn-group>
+        <button class="btn btn-warning">多项选择题</button> 
+        <button class="btn btn-info">{{q.subject}} </button>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <tr>
+        <th>
+        {{q.question}} 
+        </th>
+    <tr>
+        <td id=A>
+            <li><label class=checkbox><input onclick="mSele('A');" type="checkbox" value="A" name="answerA" id="answerA">A： {{q.a}}</label>
+            </li>
+       </td>
+    </tr>
+
+     <tr>
+        <td id=B>
+            <li><label class=checkbox><input onclick="mSele('B');" type="checkbox" value="B" name="answerB" id="answerB">B： {{q.b}}</label>
+            </li>
+       </td>
+    </tr>
+ 
+     <tr>
+        <td id=C>
+            <li><label class=checkbox><input onclick="mSele('C');" type="checkbox" value="C" name="answerC" id="answerC">C： {{q.c}}</label>
+            </li>
+       </td>
+    </tr>
+ 
+     <tr>
+        <td id=D>
+            <li><label class=checkbox><input onclick="mSele('D');" type="checkbox" value="D" name="answerD" id="answerD">D： {{q.d}}</label>
+            </li>
+       </td>
+    </tr>
+ 
+     <tr>
+        <td id=E>
+            <li><label class=checkbox><input onclick="mSele('E');" type="checkbox" value="E" name="answerE" id="answerE">E： {{q.e}}</label>
+            </li>
+       </td>
+    </tr>
+    
+</table>
+
+</div>
+</div>
+<style>
+.highlight{background-color:#449D44}
+</style>
+<script>
+function mSele(opt){
+    if($("#answer"+opt).attr("checked")){
+        $("#"+opt).addClass("highlight");
+    }else{
+        $("#"+opt).removeClass("highlight");
+    }
+};
+</script>
+

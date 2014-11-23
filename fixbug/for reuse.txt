@@ -1,0 +1,39 @@
+重命名表question 为doctor_question
+alter table question rename to doctor_question;
+
+#增加字段
+
+alter table doctor_question add answer_times int;
+
+#修改字段内容
+update doctor_question set right_times=1;
+
+
+
+#创建表 doctor_question
+CREATE TABLE "doctor_question" (id integer primary key autoincrement,subject varchar(100),type integer,serial integer,content varchar(800),question varchar(500),A varchar(200),B varchar(200),C varchar(200),D varchar(200),E varchar(200), answer varchar(50),explain varchar(800), answer_times integer, right_times integer);
+
+插入表
+insert into doctor_user (id ,username,password,email)
+values(1,'2','3','4');
+
+
+user 表
+CREATE TABLE "doctor_user" (
+    "id" integer NOT NULL PRIMARY KEY,
+    "username" varchar(20) NOT NULL UNIQUE,
+    "password" varchar(30) NOT NULL,
+    "email" varchar(500) NOT NULL,
+    "realname" varchar(2),
+    "sex" varchar(2),
+    "hospital" varchar(100),
+    "major" varchar(100),
+    "photo" varchar(100),
+    "regDate" datetime,
+    "score" integer,
+    "degree" integer,
+    "qid" integer
+);
+
+question表
+CREATE TABLE "doctor_question" (id integer primary key autoincrement,subject varchar(100),type integer,serial integer,content varchar(800),question varchar(500),A varchar(200),B varchar(200),C varchar(200),D varchar(200),E varchar(200), answer varchar(50),explain varchar(800), answer_times int, right_times int);

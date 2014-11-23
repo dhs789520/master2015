@@ -1,0 +1,62 @@
+<style>
+label:hover{background-color:#449d44;}
+</style>
+
+<div class=row>
+<div id=question class="span8 question">
+
+
+<div class=btn-bar>
+    <div class=btn-group>
+        <button class="btn btn-warning">共用备选答案题</button> 
+        <button class="btn btn-info">{{q.subject}} </button>
+    </div>
+</div>
+
+<table class="table table-hover">
+        <td id=A>
+            <li><label class=radio><input onclick="sele('A');" type="radio" value="A" name="answer" id="answerA">A： {{q.a}}</label>
+            </li>
+       </td>
+    </tr>
+
+     <tr>
+        <td id=B>
+            <li><label class=radio><input onclick="sele('B');" type="radio" value="B" name="answer" id="answerB">B： {{q.b}}</label>
+            </li>
+       </td>
+    </tr>
+ 
+     <tr>
+        <td id=C>
+            <li><label class=radio><input onclick="sele('C');" type="radio" value="C" name="answer" id="answerC">C： {{q.c}}</label>
+            </li>
+       </td>
+    </tr>
+ 
+     <tr>
+        <td id=D>
+            <li><label class=radio><input onclick="sele('D');" type="radio" value="D" name="answer" id="answerD">D： {{q.d}}</label>
+            </li>
+       </td>
+    </tr>
+ 
+     <tr>
+        <td id=E>
+            <li><label class=radio><input onclick="sele('E');" type="radio" value="E" name="answer" id="answerE">E： {{q.e}}</label>
+            </li>
+       </td>
+    </tr>
+    
+    <tr>
+        <th>
+        <button class="btn btn-warning">( {{q.qserial}} )</button>
+        {{q.question}} 
+        </th>
+    </tr>
+</table>
+
+</div>
+</div>
+
+

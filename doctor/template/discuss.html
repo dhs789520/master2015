@@ -1,0 +1,49 @@
+{% if discuss_new %}<!--如果没有数据，则不显示-->
+<h3 class="page-header">显示最新10条讨论<h3>
+  {% for d in discuss_new %}
+      <h5 class="page-header" >
+          <font color=blue>{{d.user.username}}</font>　　{{d.date|date:"Y-m-d h:i"}}<br> 
+      </h5> 
+        {{d.content|safe}} <br> 
+        <button class=btn onclick="vote('{{d.id}}',1);"><i class="icon-thumbs-up"></i>(<span class=support{{d.id}}>{{d.support}}</span>)   </button>
+
+        <button class=btn onclick="vote('{{d.id}}',-1);"><i class="icon-thumbs-down"></i>(<span class=oppose{{d.id}}>{{d.oppose}}</span>)   </button>
+        <button class=btn>举报 </button>
+      <hr align="left" width="50%" size="1"> 
+  {%endfor%}
+      <a herf=/discuss_new_more>显示更多</a>
+
+{% endif %}
+
+{% if discuss_hot %}<!--如果没有数据，则不显示-->
+<h3 class="page-header">显示最热10条讨论<h3>
+  {% for d in discuss_hot %}
+      <h5 class="page-header" >
+          <font color=blue>{{d.user.username}}</font>　　{{d.date|date:"Y-m-d h:i"}}<br> 
+      </h5> 
+        {{d.content|safe}} <br> 
+        <button class=btn onclick="vote('{{d.id}}',1);"><i class="icon-thumbs-up"></i>(<span class=support{{d.id}}>{{d.support}}</span>)   </button>
+
+        <button class=btn onclick="vote('{{d.id}}',-1);"><i class="icon-thumbs-down"></i>(<span class=oppose{{d.id}}>{{d.oppose}}</span>)   </button>
+        <button class=btn>举报 </button>
+      <hr align="left" width="50%" size="1"> 
+  {%endfor%}
+      <a herf=/discuss_new_more>显示更多</a>
+
+{% endif %}
+<script type="text/javascript">
+function vote(did,score){
+    $.post("/vote",{"did":did,"score":score},function(data,status){
+            if (data=='success'){
+                if (score==1){
+                    $(".support"+did).html(Number($(".support"+did).html())+1);
+                    } else{
+                    $(".oppose"+did).html(Number($(".oppose"+did).html())+1);
+                    };
+
+            }else{alert(data)};
+
+      });
+};
+</script>
+
