@@ -143,19 +143,54 @@ def pre(request):
     return HttpResponseRedirect('/showQuestion')
 
 
-def jump(request):
-    id= request.GET.get('id','')
-    if not re.match('^\d+$',id):
-        return HttpResponseRedirect('/')
+def jump(request,qid):
+    if request.session['degree'] < 5:
+        return
 
-    request.session['id'] = id
+    q=Question.objects.filter(id=qid)
+    if not q:
+        return HR('没有此数据')
+
+    user= User.objects.filter(id=request.session['uid'])[0]
+    user.qid = qid
+    request.session['qid'] = user.qid
+    user.save()
+ 
+    return HttpResponseRedirect('/showQuestion')
     
-    q=Question.objects.get(id=id)
-    request.session['id']=q.id
-    #不同的题型，出现相应不同的模板
-    return render_to_response('question_with_base.html', {'q' : q,'includeQuestion':'question%d.html'%(q.qtype)} )
+
+#编辑此题
+def edit(request,qid):
+    #如果权限不够不执行
+    if request.session['degree'] < 4:
+        return
+
+    q=Question.objects.get(id=qid)
+    #如果GET则显示question_edit页面
+    if request.method == 'GET':
+        user=request.session
+        return render_to_response('question_edit_form.html',{'q':q,'user':user})
+
+    #剩下的情况一般就只能是POST了，所以不要else了
+    p=request.POST
+    q.content=p['content']
+    q.question=p['question']
+    q.a=p['A']
+    q.b=p['B']
+    q.c=p['C']
+    q.d=p['D']
+    q.e=p['E']
+    q.qexplain=p['explain']
+    q.save()
+    return HttpResponseRedirect('/showQuestion')
 
 
+
+
+
+     
+
+ 
 def search(request):
     keyword= request.POST.get('keyword','')
     if keyword =='':

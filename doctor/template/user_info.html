@@ -11,13 +11,18 @@
   <h1 class="page-header">用户信息</h1> 
   <ui>
   <li> 用户名: {{user.username}}</li>
-  <li> Email: {{user.email}}
-      {%ifequal user.email_verify_code  'success' %}
-        邮箱已认证
-      {%else%}
-        <button class="bun btn-primary" onclick="send_verify_email()">未收到邮件？再次点击发送</button>
-      {%endifequal%}
-  </li>
+  {%if user.email%}
+      <li> Email: {{user.email}}
+          {%ifequal user.email_verify_code  'success' %}
+            邮箱已认证
+          {%else%}
+          <form action=/send_verify_email method=post>
+          <textarea rows=10 name=msg id=msg placeholder="  在这里填入邮件内容，这样可以正确地发送邮件， 
+              否则，邮件发送到您的邮箱可能被认为垃圾邮件， 而被拦截！ 字数要求在100字左右,如果字数过少，随便的一段文章，或者一首诗都可以，视情况，我们也会自动增加数据"></textarea>
+            <button id="sendbtn" class="bun" onclick="send_verify_email()">未收到邮件？再次点击发送</button>
+          {%endifequal%}
+      </li>
+  {%endif%}
   <li> 做题数: {{user.qid}}</li>
   <li> 等级: {{user.degree}}</li>
   <li> 积分: {{user.score}}</li>
@@ -32,7 +37,10 @@
 
 <script>
 function send_verify_email(){
-    $.get("/send_verify_email",function(data,status){
+    $("#sendbtn").attr('disabled',true);
+    $("#sendbtn").html('已经发送');
+
+    $.post("/send_verify_email",{msg:$("#msg").val()},function(data,status){
             return ;
       });
 }

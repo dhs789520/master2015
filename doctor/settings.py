@@ -126,8 +126,8 @@ STATICFILES_DIRS = (
     )
 
 EMAIL_USE_TLS =True
-EMAIL_HOST = 'smtp.163.com'
-EMAIL_HOST_USER = 'dhs789520@163.com'
-EMAIL_HOST_PASSWORD = 'dhs2ksingle'
-EMAIL_PORT = 25
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_HOST_USER = 'dhs789520@qq.com'
+EMAIL_HOST_PASSWORD = 'waterstar2k'
+EMAIL_PORT = 587
 

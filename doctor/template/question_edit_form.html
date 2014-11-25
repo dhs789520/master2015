@@ -1,0 +1,74 @@
+{% extends "baseAll.html" %}
+
+{% block content %}
+<form class="form-horizontal" method="post" action="/question_edit/{{q.id}}">
+    <fieldset>
+        <legend>编辑题目</legend>
+
+  <div class="control-group">
+  <label class="control-label" for="content">题干：</label>
+  <div class="controls">
+      <textarea id="content" name="content" rows=8 class="span5">{{q.content}}</textarea>
+  </div>
+  </div>
+ 
+  <div class="control-group">
+  <label class="control-label" for="question">问题：</label>
+  <div class="controls">
+      <textarea id="content" name="question" rows=5 class="span5">{{q.question}}</textarea>
+  </div>
+  </div>
+
+  <div class="control-group">
+      <label class="control-label" for="optA"> 选项A　：</label>
+      <div class="controls">
+      <input id="optA" type="text" name="A" value="{{q.a}}" placeholder="请输入选项A" class="span5"> 
+  </div>
+  </div>
+ 
+  <div class="control-group">
+      <label class="control-label" for="optB"> 选项B　：</label>
+      <div class="controls">
+      <input id="optB" type="text" name="B" value="{{q.b}}" placeholder="请输入选项B" class="span5"> 
+  </div>
+  </div>
+  
+  <div class="control-group">
+      <label class="control-label" for="optB"> 选项C　：</label>
+      <div class="controls">
+      <input id="optC" type="text" name="C" value="{{q.c}}" placeholder="请输入选项C" class="span5"> 
+  </div>
+ </div>
+   
+  <div class="control-group">
+      <label class="control-label" for="optD"> 选项D　：</label>
+      <div class="controls">
+      <input id="optD" type="text" name="D" value="{{q.d}}" placeholder="请输入选项D" class="span5"> 
+  </div>
+  </div>
+ 
+  <div class="control-group">
+      <label class="control-label" for="optE"> 选项E　：</label>
+      <div class="controls">
+      <input id="optE" type="text" name="E" value="{{q.e}}" placeholder="请输入选项E" class="span5"> 
+  </div>
+  </div>
+
+  <div class="control-group">
+  <label class="control-label" for="explain">解释：</label>
+  <div class="controls">
+      <textarea id="content" name="explain" rows=5  class="span5">{{q.qexplain}}</textarea>
+  </div>
+  </div>
+
+  
+    </fieldset>
+  <div class="form-actions">
+      <button class="btn btn-primary" type="submit" name="Submit">提交修改</button>
+      <button class='btn btn-info' onclick="window.location.href='/showQuestion';">放弃编辑</button>
+  </div>
+
+
+</form>
+{% endblock%}
+

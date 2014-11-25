@@ -130,18 +130,18 @@ def reg(request):
         user.save()
 
         #发送 email 认证  Email认证后，用户的degree 增加 1 ，也就可以发讨论信息了
-        from django.core.mail import send_mail
-        email_verify_url=r'http://m2015.sinaapp.com/email_verify/%s/%s'%(username,email_verify_code)
-        emailmsg=u'尊敬的朋友，如果您在主治医师研讨班注册了帐号，请点击以下网址完成邮箱认证\n %s  \n如果没有注册，请忽略此邮件，谢谢！'%(email_verify_url)
-        send_mail(u'用户邮箱认证',emailmsg,'dhs789520@163.com',[email],fail_silently=False)   
-
+        #from django.core.mail import send_mail
+        #email_verify_url=r'http://m2015.sinaapp.com/email_verify/%s/%s'%(username,email_verify_code)
+        #emailmsg=u'尊敬的朋友，如果您在主治医师研讨班注册了帐号，请点击以下网址完成邮箱认证\n %s  \n如果没有注册，请忽略此邮件，谢谢！'%(email_verify_url)
+        #send_mail(u'用户邮箱认证',emailmsg,'dhs789520@sina.com',[email],fail_silently=False)   
+#
 
         #注册成功,设置session
         user= User.objects.filter(username=username)[0]
         request.session['user']=username
         request.session['uid']=user.id
         request.session['qid']=1
-        request.session['score']=0 #新用户的操作积分为1
+        request.session['score']=0 #新用户的操作积分为0
         request.session['degree']=1 #新用户的等级为1
         
         return render_to_response('reg_success.html',{'user':request.session})
@@ -157,11 +157,26 @@ def send_verify_email(request):
         return
     username=user.username
     email=user.email
-    #发送 email 认证  Email认证后，用户的degree 增加 1 ，也就可以发讨论信息了
-    from django.core.mail import send_mail
+    addenMsg=request.POST['msg']
+
+    #如果增加内容过少
+    if len(addenMsg) <100 :
+        pass
+
+
+
     email_verify_url=r'http://m2015.sinaapp.com/email_verify/%s/%s'%(username,email_verify_code)
-    emailmsg=u'尊敬的朋友，如果您在主治医师研讨班注册了帐号，请点击以下网址完成邮箱认证\n %s  \n如果没有注册，请忽略此邮件，谢谢！'%(email_verify_url)
-    send_mail(u'用户邮箱认证',emailmsg,'dhs789520@163.com',[email],fail_silently=False)   
+    emailmsg=u'尊敬的朋友，如果您在主治医师研讨班注册了帐号，请点击以下网址完成邮箱认证\n\
+                %s  \n如果没有注册，请忽略此邮件，谢谢！\n\n\n'%(email_verify_url)
+    #加上用户的乱码，这样就可以了 ,夹心饼
+    emailmsg = addenMsg + emailmsg +addenMsg
+
+   #发送 email 认证  Email认证后，用户的degree 增加 1 ，也就可以发讨论信息了
+    from doctor.settings import EMAIL_HOST_USER
+    from django.core.mail import send_mail
+    #send_mail(u'用户邮箱认证DjangoMail',emailmsg,EMAIL_HOST_USER,[email],fail_silently=False)   
+    send_mail(u'用户邮箱认证DjangoMail',emailmsg,EMAIL_HOST_USER,[email],fail_silently=False)   
+    return HR('success')
 
 
     
