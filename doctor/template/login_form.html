@@ -32,7 +32,7 @@
       <label class="control-label" for="verify"> 验证码： </label>
       <div class="controls">
       <input id="verify" type="text" name="verify" >
-    <img onclick="this.setAttribute('src','/verify.jpg?nocache='+Math.random());" src="/verify.jpg" alt="点击图片更换验证码"/> 
+    <img onclick="this.setAttribute('src','/get_verify_img?nocache='+Math.random());" src="/get_verify_img?{{"abcdefghijklmn"|random}}" alt="点击图片更换验证码"/> 
       <p class="help-block">验证码不区分大小写</p>
   </div>
   </div>

@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^$', views.index),
     url(r'^about$', views.about), #生成验证码图片页面
     url(r'^help$', views.help), #生成验证码图片页面
-    url(r'^verify.jpg$', views.verifyimg), #生成验证码图片页面
+    url(r'^get_verify_img$', views.verifyimg), #生成验证码图片页面
     url(r'^cron$', views.cron),
 
     #相关操作存放于view.question

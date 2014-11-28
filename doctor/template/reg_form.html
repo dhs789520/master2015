@@ -48,7 +48,7 @@
       <label class="control-label" for="verify">验证码：</label>
       <div class="controls">
       <input id="verify" type="text" name="verify" value="{{reginfo.verify}}" placeholder="请输入验证码">
-      <img onclick="this.setAttribute('src','/verify.jpg?nocache='+Math.random());" src="/verify.jpg" alt="CheckCode"/> 
+      <img onclick="this.setAttribute('src','/get_verify_img?nocache='+Math.random());" src="/get_verify_img?{{'abcdefg'|random}}" alt="CheckCode"/> 
       <p class="help-block">请输入图中的验证码，看不清可点击图片更新</p>
   </div>
   </div>
@@ -57,7 +57,7 @@
     </fieldset>
   <div class="form-actions">
       <button class="bun btn-primary" type="submit" name="Submit">提交注册</button>
-      <a href=/login>已有用户名?立即前往登录</a>
+      <a href=/login>已有用户名? 立即前往登录</a>
   </div>
 
 </form>

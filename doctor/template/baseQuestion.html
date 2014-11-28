@@ -4,6 +4,7 @@
 <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/static/jquery.js"></script>
 <script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <script type="text/javascript" src="/static/xheditor.js"></script>
 <script type="text/javascript" src="/static/xheditor_lang/zh-cn.js"></script>
 <title>主治医师研讨班</title>
@@ -15,6 +16,13 @@ body{background-color:#CCC}
 .table-hover tbody tr:hover td {
   background-color:#449d44;
 }
+
+/*加星收藏样式，此处为未点亮时星星样式 主要是background-position*/
+.star_icon 
+{background:url('/static/img/star.png');background-position:0 0px;margin-left:5%;width: 18px;height: 18px;display: inline-block;background-repeat: no-repeat; -webkit-background-size: 18px auto;-moz-background-size: 18px auto;-o-background-size: 18px auto; background-size: 18px auto;}
+
+/*收藏时点亮星星样式*/
+.star_icon.favorite{background-position:0 -19px;}
 
 </style>
 </head>
@@ -34,26 +42,36 @@ body{background-color:#CCC}
  
  
   {% if user.degree >= 4 %}
-
     <div class="input-append">
       <button class="btn btn-info" onclick="window.location.href='/jump/'+$('#jumpqid').val();">跳转到</button>
       <input type="text" class="span1" id="jumpqid">
       <span class="add-on">题&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
       <button class='btn btn-info' onclick="window.location.href='/question_edit/{{user.qid}}';">编辑当前题#{{user.qid}}</button>
   </div>
-
   
   {% endif %}
-{% include includeQuestion %}
 
-  <button class="btn btn-success" id=pre {%ifequal user.qid 1 %}disabled=disabled {%endifequal%} >上一题</button> 
+<div class=btn-bar>
+    <div class=btn-group>
+        <button class="btn btn-warning" id="qtype"></button> 
+        <button class="btn btn-info">{{q.subject}} </button>
+        <button class='btn btn-info'>当前第{{user.qid}}题</button>
+    </div>
+</div>
+
+
+{% include includeQuestion %}<!--显示题目 根据 includeQuestion的值调用模板-->
+
+<div class="row">
+  <button class="btn btn-success" id="pre" {%ifequal user.qid 1 %}disabled=disabled {%endifequal%} >上一题</button> 
   
-  <button class="btn btn-info" id=showanswer onclick="showAnswer();"  {%ifequal q.qtype 2%}  {%else%}disabled=disabled {% endifequal %}>答案及解析</button>
+  <button class="btn btn-info" id="showanswer" onclick="showAnswer();"  {%ifequal q.qtype 2%}  {%else%}disabled=disabled {% endifequal %}>答案及解析</button>
 
   <button class="btn btn-success" id=next >下一题</button> 
+  <span><a class="star_icon favorite" alt="点击收藏"></a></span><!--显示收藏星星-->
+</div>
 
-<div id=result></div>
-
+<div id=result></div><!--显示点击后的对错状态-->
 <div id=explain style=display:none></div><!--显示答案及解析-->
 <div id=discuss>{% include 'discuss.html' %}</div><!--显示讨论内容-->
 

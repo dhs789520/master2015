@@ -36,6 +36,7 @@ def login(request):
          #如果验证码错误
         if request.session['verify_code'].lower() != verify.lower():
             error.append(u'验证码输入错误')
+        request.session['verify_code']='' #使验证码失效
 
         user= User.objects.filter(username=username,password=password)
          #验证用户名及密码
@@ -105,6 +106,8 @@ def reg(request):
          #如果验证码错误
         if request.session['verify_code'].lower() != verify.lower():
             error.append(u'验证码输入错误')
+        request.session['verify_code']='' #使验证码失效
+
          #如果email格式错误
         if not re.match(r'\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*',email):
             error.append(u'email格式错误')
@@ -128,13 +131,6 @@ def reg(request):
                 email_verify_code=email_verify_code,\
                 )
         user.save()
-
-        #发送 email 认证  Email认证后，用户的degree 增加 1 ，也就可以发讨论信息了
-        #from django.core.mail import send_mail
-        #email_verify_url=r'http://m2015.sinaapp.com/email_verify/%s/%s'%(username,email_verify_code)
-        #emailmsg=u'尊敬的朋友，如果您在主治医师研讨班注册了帐号，请点击以下网址完成邮箱认证\n %s  \n如果没有注册，请忽略此邮件，谢谢！'%(email_verify_url)
-        #send_mail(u'用户邮箱认证',emailmsg,'dhs789520@sina.com',[email],fail_silently=False)   
-#
 
         #注册成功,设置session
         user= User.objects.filter(username=username)[0]
@@ -161,7 +157,7 @@ def send_verify_email(request):
 
     #如果增加内容过少
     if len(addenMsg) <100 :
-        pass
+        return HR(u'请填入至少一百字的随机文字,才可以发送邮件!')
 
 
 

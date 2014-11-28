@@ -2,8 +2,10 @@
 <script type="text/javascript" src="./static/bootstrap/js/bootstrap.js"></script>
 <script>
 
+//选项被击中，显示状态
 $("td").click(function(){
 
+    //多项选择题被选中后，直接返回
     if($("#answer"+this.id).attr('type') == 'checkbox'){
         return ;
     };
@@ -16,13 +18,11 @@ $("td").click(function(){
     $("#D").css("background-color",$("#question").css("background-color"));
     $("#E").css("background-color",$("#question").css("background-color"));
 
-
     $("#answerA").attr('disabled',"disabled");
     $("#answerB").attr('disabled',"disabled");
     $("#answerC").attr('disabled',"disabled");
     $("#answerD").attr('disabled',"disabled");
     $("#answerE").attr('disabled',"disabled");
-
 
     $("#showanswer").attr('disabled',false);
 
@@ -38,6 +38,7 @@ $("td").click(function(){
 });
 
 
+//点击上一题按钮
 function showAnswer(){
     $("#showanswer").attr('disabled',true);
     var a=""
@@ -57,6 +58,7 @@ function showAnswer(){
 }
 
 
+//点击下一题按钮
 $("#next").click(function(){
   {%if 'next_verify' in user %}
       {%ifequal user.next_verify 2%}
@@ -70,6 +72,37 @@ $("#next").click(function(){
 $("#pre").click(function(){
     window.location.href='/pre';
 });
+
+
+
+$('.star_icon').unbind("click");
+$('.star_icon').click(function () {
+    //toggleClass()函数切换星星的favorite 属性样式（若原来有favorite属性，点击后该属性remove,反之亦然）
+
+    $(this).toggleClass("favorite");
+
+    if ($(this).hasClass("favorite")) {
+        setStarUpd(); // 收藏功能函数
+    }
+    else if (!$(this).hasClass("favorite")) {
+        setUnStarDel(); // 取消收藏功能函数
+    }
+});
+
+
+
+
+//设置题型按钮内容
+if(1=={{q.qtype}}){
+    $("#qtype").html('单项选择题');
+}else if(2=={{q.qtype}}){
+    $("#qtype").html('多项选择题');
+}else if(3=={{q.qtype}}){
+    $("#qtype").html('共用题干题共用备选答案题');
+}else if(4=={{q.qtype}}){
+    $("#qtype").html('共用备选答案题');
+}
+
 
 
 </script>
