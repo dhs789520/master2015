@@ -102,7 +102,11 @@ def next(request):
         return HR(u'亲，请先完成邮箱认证，邮箱未认证用户只能浏览前500题！')
 
     # 2级用户只能浏览前2000题
-    if request.session['degree'] <=2 and request.session['qid'] >=2000:
+    if (request.session['degree'] <= 2 and request.session['qid'] >= 2000):
+        print request.session['degree'] 
+        print request.session['degree'] <= 2 
+        print request.session['qid']
+        print request.session['qid'] >= 2000
         return HR(u'亲，目前2级用户只能浏览前2000题！')
 
     #验证是否有爬虫
@@ -155,6 +159,8 @@ def jump(request,qid):
     if request.session['degree'] < 2:
         return HR(u'对不起，您的权限不够！')
 
+    #用户提交的数据是str类型的
+    qid=int(qid)
     q=Question.objects.filter(id=qid)
     if not q:
         return HR('没有此数据')
