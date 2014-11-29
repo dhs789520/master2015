@@ -11,7 +11,7 @@ from django.db.models import Q
 #from django.template import RequestContext
 
 
-from doctor.models import Question,User,Record,Discuss,Vote
+from doctor.models import Question,User,Record,Discuss,Vote,Qstore
 
 #生成验证码图片
 def verifyimg(request):
@@ -208,9 +208,11 @@ def info(request):
     else:
         user=User.objects.get(id=request.session['uid'])
 
+    qstore=Qstore.objects.order_by('question')
+
 
     #不同的题型，出现相应不同的模板
-    return render_to_response('user_info.html', {'user':user} )
+    return render_to_response('user_info.html', {'user':user,'qstore':qstore} )
 
 
 

@@ -3,7 +3,6 @@
 <head>
 <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/static/jquery.js"></script>
-<script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <script type="text/javascript" src="/static/xheditor.js"></script>
 <script type="text/javascript" src="/static/xheditor_lang/zh-cn.js"></script>
@@ -19,7 +18,7 @@ body{background-color:#CCC}
 
 /*加星收藏样式，此处为未点亮时星星样式 主要是background-position*/
 .star_icon 
-{background:url('/static/img/star.png');background-position:0 0px;margin-left:5%;width: 18px;height: 18px;display: inline-block;background-repeat: no-repeat; -webkit-background-size: 18px auto;-moz-background-size: 18px auto;-o-background-size: 18px auto; background-size: 18px auto;}
+{background:url('/static/img/star.png');margin-bottom:-7px;width: 18px;height: 18px;display: inline-block; background-size: 18px auto;}
 
 /*收藏时点亮星星样式*/
 .star_icon.favorite{background-position:0 -19px;}
@@ -62,14 +61,16 @@ body{background-color:#CCC}
 
 {% include includeQuestion %}<!--显示题目 根据 includeQuestion的值调用模板-->
 
-<div class="row">
   <button class="btn btn-success" id="pre" {%ifequal user.qid 1 %}disabled=disabled {%endifequal%} >上一题</button> 
   
   <button class="btn btn-info" id="showanswer" onclick="showAnswer();"  {%ifequal q.qtype 2%}  {%else%}disabled=disabled {% endifequal %}>答案及解析</button>
 
   <button class="btn btn-success" id=next >下一题</button> 
-  <span><a class="star_icon favorite" alt="点击收藏"></a></span><!--显示收藏星星-->
-</div>
+  {%if q.qstore%}
+      <span><span id="qstore_info">已收藏</span><a class="star_icon favorite" id=qstore></a></span><!--显示收藏星星-->
+  {%else%}
+      <span><span id="qstore_info">点亮星收藏</span><a class="star_icon" id=qstore></a></span><!--显示收藏星星-->
+  {%endif%}
 
 <div id=result></div><!--显示点击后的对错状态-->
 <div id=explain style=display:none></div><!--显示答案及解析-->

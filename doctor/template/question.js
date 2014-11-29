@@ -1,5 +1,7 @@
 <script type="text/javascript" src="/static/question.js"></script>
-<script type="text/javascript" src="./static/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/static/jquery.js"></script>
+<script type="text/javascript" src="/static/bootstrap/js/jquery.js"></script>
+<script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
 <script>
 
 //选项被击中，显示状态
@@ -77,16 +79,27 @@ $("#pre").click(function(){
 
 $('.star_icon').unbind("click");
 $('.star_icon').click(function () {
-    //toggleClass()函数切换星星的favorite 属性样式（若原来有favorite属性，点击后该属性remove,反之亦然）
 
-    $(this).toggleClass("favorite");
+    if (!$(this).hasClass("favorite")) {//增加收藏
+     $.get("/store_question/{{q.id}}",function(data,status){
+         if(data=='success'){
+            $("#qstore").toggleClass("favorite");
+            $("#qstore_info").html("已收藏");
+            
+         }; //endif
+      }); //endof get 
 
-    if ($(this).hasClass("favorite")) {
-        setStarUpd(); // 收藏功能函数
+
     }
-    else if (!$(this).hasClass("favorite")) {
-        setUnStarDel(); // 取消收藏功能函数
-    }
+    else if ($(this).hasClass("favorite")) { //取消收藏功能函数
+     $.get("/store_question/-{{q.id}}",function(data,status){
+         if(data=='success'){
+                $("#qstore").toggleClass("favorite");
+                $("#qstore_info").html("点亮星收藏");
+             };//endif
+        });//endof get
+    };// endof elseif
+
 });
 
 

@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response
 from django.db.models import Q
 #from django.template import RequestContext
 
-from doctor.models import Question,User,Record,Discuss,Vote
+from doctor.models import Question,User,Record,Discuss,Vote,Qstore
 
 
 
@@ -46,6 +46,13 @@ def showQuestion(request):
     if not q:
         return HR('没有此数据')
 
+    #如果此题已经被收藏
+    if Qstore.objects.filter(question_id=request.session['qid'],uid=request.session['uid']).count() != 0:
+        q.qstore=1
+    else:
+        q.qstore=0
+
+
      #记录日志
     record=Record()
     record.uid=request.session['uid']
@@ -66,7 +73,7 @@ def showQuestion(request):
     #不同的题型，出现相应不同的模板
     return render_to_response('baseQuestion.html', {'q' : q,\
             'includeQuestion':'question%d.html'%(q.qtype),'user':request.session,\
-            'discuss_new':discuss_new,'discuss_hot':discuss_hot} )
+            'discuss_new':discuss_new,'discuss_hot':discuss_hot})
 
 #带验证功能的下一题
 def next_verify(request):
@@ -143,9 +150,10 @@ def pre(request):
     return HttpResponseRedirect('/showQuestion')
 
 
+#跳转到指定题
 def jump(request,qid):
-    if request.session['degree'] < 5:
-        return
+    if request.session['degree'] < 2:
+        return HR(u'对不起，您的权限不够！')
 
     q=Question.objects.filter(id=qid)
     if not q:
@@ -158,6 +166,26 @@ def jump(request,qid):
  
     return HttpResponseRedirect('/showQuestion')
     
+
+#收藏指定题
+def store(request,qid):
+    #未邮箱认证用户不能收藏
+    if request.session['degree'] < 2:
+        return
+
+    qid=int(qid)
+    s=Qstore.objects.filter(uid=request.session['uid'],question_id=abs(qid))
+    if qid > 0 and (not s):
+        qs=Qstore(uid=request.session['uid'],question_id=abs(qid))
+        qs.save()
+    #负的题号代表取消收藏
+    elif qid < 0 and s:
+        s[0].delete()
+    else:
+        return HR('wrong')
+    return HR('success')
+    
+
 
 #编辑此题
 def edit(request,qid):

@@ -19,13 +19,22 @@
           <form action=/send_verify_email method=post>
           <textarea rows=10 name=msg id=msg placeholder="  在这里填入邮件内容，这样可以正确地发送邮件， 
               否则，邮件发送到您的邮箱可能被认为垃圾邮件， 而被拦截！ 字数要求在100字左右,如果字数过少，随便的一段文章，或者一首诗都可以，视情况，我们也会自动增加数据"></textarea>
-            <button id="sendbtn" class="bun" onclick="send_verify_email()">未收到邮件？再次点击发送</button>
+            <button id="sendbtn" class="btn" onclick="send_verify_email()">未收到邮件？再次点击发送</button>
           {%endifequal%}
       </li>
   {%endif%}
-  <li> 做题数: {{user.qid}}</li>
+  <li> 当前进度: {{user.qid}}</li>
   <li> 等级: {{user.degree}}</li>
   <li> 积分: {{user.score}}</li>
+  <li> 我的收藏: <br>
+      {%for qs in qstore%}
+      <a class="star_icon favorite" id={{qs.question_id}}></a><!--显示收藏-->
+          <a href=/jump/{{qs.question_id}}> {{qs.question_id}}.{{qs.question.question}}</a>
+              <br>
+      {%endfor%}
+  
+  
+  </li>
 
         
 <br>
@@ -43,7 +52,33 @@ function send_verify_email(){
     $.post("/send_verify_email",{msg:$("#msg").val()},function(data,status){
             return ;
       });
-}
+}//endof func send_verify_email
+
+
+
+$('.star_icon').unbind("click");
+$('.star_icon').click(function () {
+    var id=$(this).attr('id');
+    if (!$(this).hasClass("favorite")) {//增加收藏
+     $.get("/store_question/"+id,function(data,status){
+         if(data=='success'){
+            $("#"+id).toggleClass("favorite");
+            
+         }; //endif
+      }); //endof get 
+
+
+    }
+    else if ($(this).hasClass("favorite")) { //取消收藏功能函数
+     $.get("/store_question/-"+id,function(data,status){
+         if(data=='success'){
+                $("#"+id).toggleClass("favorite");
+             };//endif
+        });//endof get
+    };// endof elseif
+
+});
+
 
 </script>
 {% endblock%} </p>
