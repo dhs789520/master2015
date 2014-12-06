@@ -55,7 +55,9 @@ class User(models.Model):
 class Qstore(models.Model):
     uid = models.IntegerField(db_index=True,blank=False, null=False)#索引
     question=models.ForeignKey(Question)
- 
+    def __unicode__(self):
+        return "%s- %s"%(self.uid,self.question)
+
 #答题记录表
 class Record(models.Model):
     uid = models.IntegerField(db_index=True,blank=False, null=False)
@@ -79,7 +81,9 @@ class Discuss(models.Model):
     def __unicode__(self):
         return "%d - %s"%(self.id ,self.content)
 
-#投票记录表
+# 投票记录表
+
+
 class Vote(models.Model):
      #使用外键 表中的字段为 user_id
     user=models.ForeignKey(User)
