@@ -142,7 +142,8 @@ def reg(request):
         request.session['uid']=user.id
         request.session['qid']=1
         request.session['score']=0 #新用户的操作积分为0
-        request.session['degree']=1 #新用户的等级为1
+        #request.session['degree']=1 #新用户的等级为1
+        request.session['degree']=3 #测试状态用户的等级增加大一些
         
         return render_to_response('reg_success.html',{'user':request.session})
 
@@ -165,7 +166,7 @@ def send_verify_email(request):
 
 
 
-    email_verify_url=r'http://m2015.sinaapp.com/email_verify/%s/%s'%(username,email_verify_code)
+    email_verify_url=r'http://127.0.0.1:8000/email_verify/%s/%s'%(username,email_verify_code)
     emailmsg=u'尊敬的朋友，如果您在主治医师研讨班注册了帐号，请点击以下网址完成邮箱认证\n\
                 %s  \n如果没有注册，请忽略此邮件，谢谢！\n\n\n'%(email_verify_url)
     #加上用户的乱码，这样就可以了 ,夹心饼
